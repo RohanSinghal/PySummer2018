@@ -14,7 +14,7 @@ if option==1:
 elif option==2:
 	search = input("Enter a string to search on google images - ")
 	search = search.replace(" ", "+")
-	search = "firefox www.google.com/?tbm=isch&#q="+search
+	search = "firefox 'www.google.co.in/search?q="+search+"&soruce=lnms&tbm=isch'"
 	os.system(search)
 else:
 	pass
