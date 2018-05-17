@@ -54,7 +54,32 @@ elif option==5:
 
 elif option==6:
 	#Finding the IP of connected system
-	os.system('nmap -sP 10.0.0.0/24')
+	output = os.popen('ifconfig').read().strip()
+	ethernet = output
+	index_of_enp = ethernet.find('inet')
+	ethernet = ethernet[index_of_enp::]
+	wifi = output[output.find('wlp')::]
+	index_of_wifi = wifi.find('inet')
+	wifi = wifi[index_of_wifi::]
+	if index_of_enp!=-1 and index_of_enp<index_of_wifi:	
+		ethernet = ethernet[5::]
+		ip = ethernet[:wifi.find(' ')-3]
+	else:
+		wifi = wifi[5::]
+		ip = wifi[:wifi.find(' ')-3]
+
+	ip = ip + "0/24"
+	output = os.popen('nmap -sP ' + str(ip)).read()
+	list1 = output.splitlines()
+	index = 0
+	for ii in range(len(list1)):
+		list1[index] = str(list1[index]).strip()
+		if list1[index].endswith(')'):
+			IP_index = list1[index].find('(1')
+			print(list1[index][IP_index::])
+			list1.pop(index)
+		else:
+			index += 1		
 
 else:
 	#Finding the EmailId and contact number of the admin of the given error
